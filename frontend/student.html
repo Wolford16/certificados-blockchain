@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Estudiante | Certificados</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🎓</div>
+            <h1>Portal del Estudiante</h1>
+            <p class="subtitle">Solicita y Gestiona tu Certificado</p>
+            <div style="margin-top: 1rem;">
+                <a href="index.html" class="btn-secondary" style="font-size: 0.8rem;">Volver al Inicio</a>
+            </div>
+        </header>
+
+        <main>
+            <section class="input-section card" id="requestSection">
+                <div class="wallet-connect-area" style="margin-bottom: 20px; text-align: center;">
+                    <button id="connectWalletBtn" class="btn-secondary">🦊 Conectar MetaMask</button>
+                    <p id="walletAddressDisplay" class="info-text hidden" style="margin-top: 10px; font-weight: bold; word-break: break-all;"></p>
+                </div>
+                <h2>Solicitar Certificado</h2>
+                <div class="input-group">
+                    <input type="text" id="studentName" placeholder="Ingrese su nombre completo" autocomplete="off">
+                    <button id="requestBtn" class="btn-primary">Enviar Solicitud</button>
+                </div>
+            </section>
+
+            <section id="statusSection" class="result-section card hidden">
+                <h2>Estado de Solicitud</h2>
+                
+                <div style="margin-top: 20px; text-align: center; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px;">
+                    <h3 id="statusText" style="color: var(--accent-color); font-size: 1.5rem; margin-bottom: 10px;">Pendiente</h3>
+                    <p id="statusDesc" class="info-text">Tu solicitud ha sido enviada. Espera a que la institución apruebe y registre el certificado en la Blockchain.</p>
+                    
+                    <div id="approvedDetails" class="hidden" style="margin-top: 20px;">
+                        <p style="margin-bottom: 15px; color: #4ade80;">¡Felicidades! Tu certificado ha sido emitido e inscrito en la blockchain.</p>
+                        <div class="hash-container">
+                            <span class="label">Hash:</span>
+                            <code id="certificateHash">0x...</code>
+                        </div>
+                        <button id="downloadPdfBtn" class="btn-blockchain" style="margin-top: 15px;">📥 Descargar Certificado en PDF</button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="refreshStatusBtn" class="btn-secondary">↻ Actualizar Estado</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Blockchain Certificate System.</p>
+        </footer>
+    </div>
+
+    <script src="student.js"></script>
+</body>
+</html>

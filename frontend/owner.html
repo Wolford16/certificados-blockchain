@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador | Certificados</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background: rgba(0,0,0,0.3);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-pendiente {
+            background: rgba(200, 155, 109, 0.2);
+            color: var(--accent-color);
+        }
+        .status-aprobado {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 1000px;">
+        <header>
+            <div class="logo">🏛️</div>
+            <h1>Panel de Administración</h1>
+            <p class="subtitle">Gestión y Emisión de Certificados</p>
+            <div style="margin-top: 1rem;">
+                <a href="index.html" class="btn-secondary" style="font-size: 0.8rem;">Volver al Inicio</a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Login -->
+            <section id="loginSection" class="card" style="max-width: 400px; margin: 0 auto;">
+                <h2>Acceso Restringido</h2>
+                <div class="input-group" style="flex-direction: column;">
+                    <input type="password" id="adminPassword" placeholder="Contraseña de Administrador" autocomplete="off">
+                    <button id="loginBtn" class="btn-primary">Ingresar</button>
+                </div>
+                <p class="info-text" style="margin-top: 10px; text-align: center;">La contraseña por defecto es: admin123</p>
+            </section>
+
+            <!-- Panel Dashboard -->
+            <section id="dashboardSection" class="card hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2>Solicitudes de Certificados</h2>
+                    <button id="refreshDataBtn" class="btn-secondary btn-small">↻ Actualizar</button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="requestsTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Estudiante</th>
+                                <th>Wallet</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsBody">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal de Instrucciones Blockchain para el Administrador -->
+        <div id="ownerModal" class="modal hidden">
+            <div class="modal-content card">
+                <span class="close-modal" id="closeOwnerModal">&times;</span>
+                <h2>Paso a Paso: Registro en Blockchain</h2>
+                <p>Acabas de generar el Hash de esta solicitud. Ahora, como Administrador, debes registrarlo inmutablemente en la red antes de marcarlo como Aprobado.</p>
+                <ol class="steps">
+                    <li>Abre Remix IDE con el contrato <code>CertificateRegistry.sol</code> desplegado.</li>
+                    <li>
+                        Busca la función <strong>issueCertificate</strong> e introduce estos dos valores exactamente como aparecen:
+                    </li>
+                </ol>
+                <div class="hash-display">
+                    <span class="label">Hash (Parámetro _hash):</span>
+                    <code id="modalHashToRegister">0x...</code>
+                </div>
+                <div class="hash-display" style="margin-top: 10px;">
+                    <span class="label">Wallet (Parámetro student):</span>
+                    <code id="modalWalletToRegister">0x...</code>
+                </div>
+                
+                <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <p class="info-text" style="margin-bottom: 15px;">Solo haz clic en Aprobar una vez que la transacción en Remix haya sido exitosa.</p>
+                    <button id="confirmApproveBtn" class="btn-primary" style="width: 100%;">Marcar como Aprobado</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Blockchain Certificate System.</p>
+        </footer>
+    </div>
+
+    <script src="owner.js"></script>
+</body>
+</html>

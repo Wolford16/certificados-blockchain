@@ -3,107 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockchain Certificate System | Seminario Teológico</title>
+    <title>Blockchain Certificate System | Inicio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .role-selection {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        .role-card {
+            background: rgba(0,0,0,0.2);
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            width: 100%;
+            max-width: 350px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .role-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            background: rgba(0,0,0,0.4);
+        }
+        .role-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .role-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo">📜</div>
             <h1>Blockchain Certificate System</h1>
-            <p class="subtitle">Seminario Teológico Blockchain</p>
+            <p class="subtitle">Seleccione su Rol de Ingreso</p>
         </header>
 
         <main>
-            <section class="input-section card">
-                <h2>Generar Nuevo Certificado</h2>
-                <div class="input-group">
-                    <input type="text" id="studentName" placeholder="Ingrese el nombre completo del estudiante" autocomplete="off">
-                    <button id="generateBtn" class="btn-primary">Generar Certificado</button>
-                </div>
-            </section>
-
-            <section id="resultSection" class="result-section card hidden">
-                <div class="certificate-preview" id="certificatePreview">
-                    <div class="cert-border">
-                        <div class="cert-content">
-                            <h3>CERTIFICADO DE FINALIZACIÓN</h3>
-                            <p class="cert-award">Otorgado a:</p>
-                            <h2 id="displayNombre">Nombre del Estudiante</h2>
-                            <p class="cert-text">Por haber completado satisfactoriamente el curso de:</p>
-                            <p class="cert-course" id="displayCurso">Fundamentos de Teología</p>
-                            <div class="cert-footer">
-                                <div class="footer-item">
-                                    <span class="label">Fecha:</span>
-                                    <span id="displayFecha">2026-04-22</span>
-                                </div>
-                                <div class="footer-item">
-                                    <span class="label">Institución:</span>
-                                    <span id="displayInstitucion">Seminario Teológico Blockchain</span>
-                                </div>
-                            </div>
-                            <div class="cert-seal">📜</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hash-section">
-                    <h3>Identificador Digital (SHA-256)</h3>
-                    <div class="hash-container">
-                        <code id="certificateHash">0x...</code>
-                        <button id="copyHashBtn" class="btn-secondary" title="Copiar Hash">📋</button>
-                    </div>
-                    <p class="info-text">Este hash representa la huella digital única e inmutable de su certificado.</p>
-                </div>
-
-                <div class="actions">
-                    <button id="registerBlockchainBtn" class="btn-blockchain">Registrar en Blockchain</button>
-                </div>
-            </section>
-        </main>
-
-        <!-- Modal de Instrucciones Blockchain -->
-        <div id="blockchainModal" class="modal hidden">
-            <div class="modal-content card">
-                <span class="close-modal">&times;</span>
-                <h2>Registro Manual en Blockchain</h2>
-                <p>Para registrar su certificado de forma inmutable, siga estos pasos:</p>
-                <ol class="steps">
-                    <li>
-                        <strong>Abra Remix IDE:</strong> 
-                        <a href="https://remix.ethereum.org" target="_blank">remix.ethereum.org</a>
-                    </li>
-                    <li>
-                        <strong>Cargue el Contrato:</strong> 
-                        Pegue el código de <code>CertificateRegistry.sol</code> y compílelo.
-                    </li>
-                    <li>
-                        <strong>Despliegue:</strong> 
-                        Vaya a la pestaña "Deploy & Run Transactions" y despliegue el contrato.
-                    </li>
-                    <li>
-                        <strong>Registre el Hash:</strong> 
-                        Busque la función <code>issueCertificate</code>, pegue el hash copiado y ejecute la transacción.
-                    </li>
-                    <li>
-                        <strong>Verifique:</strong> 
-                        Use la función <code>verifyCertificate</code> con el mismo hash para confirmar el registro.
-                    </li>
-                </ol>
-                <div class="hash-display">
-                    <span class="label">Su Hash:</span>
-                    <code id="modalHash">0x...</code>
-                </div>
-                <button id="closeModalBtn" class="btn-primary">Entendido</button>
+            <div class="role-selection">
+                <a href="student.html" class="role-card">
+                    <div class="role-icon">🎓</div>
+                    <div class="role-title">Soy Estudiante</div>
+                    <p class="info-text">Solicita tu certificado y descarga el PDF final verificado en Blockchain.</p>
+                </a>
+                
+                <a href="owner.html" class="role-card">
+                    <div class="role-icon">🏛️</div>
+                    <div class="role-title">Soy Administrador</div>
+                    <p class="info-text">Aprueba solicitudes y registra certificados inmutables en la Blockchain.</p>
+                </a>
             </div>
-        </div>
+        </main>
 
         <footer>
             <p>&copy; 2026 Blockchain Certificate System. Desarrollado para fines académicos.</p>
         </footer>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
