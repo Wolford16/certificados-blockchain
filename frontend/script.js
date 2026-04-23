@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.getElementById('generateBtn');
     const resultSection = document.getElementById('resultSection');
     
+    // Wallet elements
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const walletAddressDisplay = document.getElementById('walletAddressDisplay');
+    const certificateWallet = document.getElementById('certificateWallet');
+    const copyWalletBtn = document.getElementById('copyWalletBtn');
+    const modalWallet = document.getElementById('modalWallet');
+    
     // Display elements
     const displayNombre = document.getElementById('displayNombre');
     const displayFecha = document.getElementById('displayFecha');
@@ -19,6 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const blockchainModal = document.getElementById('blockchainModal');
 
     let currentHash = '';
+    let studentAddress = '';
+
+    /**
+     * Conecta con MetaMask
+     */
+    async function connectWallet() {
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                studentAddress = accounts[0];
+                walletAddressDisplay.textContent = `Conectado: ${studentAddress}`;
+                walletAddressDisplay.classList.remove('hidden');
+                connectWalletBtn.style.display = 'none';
+            } catch (error) {
+                console.error('Error al conectar:', error);
+                alert('Debe permitir el acceso a su wallet para continuar.');
+            }
+        } else {
+            alert('MetaMask no está instalado. Por favor, instale la extensión de MetaMask.');
+        }
+    }
 
     /**
      * Llama al backend para generar el certificado y el hash.
@@ -26,6 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleGenerate() {
         const nombre = studentNameInput.value.trim();
         
+        if (!studentAddress) {
+            alert('Por favor, conecte su wallet de MetaMask primero.');
+            return;
+        }
+
         if (!nombre) {
             alert('Por favor, ingrese un nombre.');
             return;
@@ -54,6 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
             displayFecha.textContent = data.certificado.fecha;
             certificateHash.textContent = data.hash;
             modalHash.textContent = data.hash;
+            
+            // Asignar wallet
+            certificateWallet.textContent = studentAddress;
+            modalWallet.textContent = studentAddress;
+            
             currentHash = data.hash;
 
             // Mostrar sección de resultados con animación
@@ -69,9 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Copia el hash al portapapeles.
-     */
     function handleCopyHash() {
         if (!currentHash) return;
 
@@ -87,7 +122,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * Copia la wallet al portapapeles.
+     */
+    function handleCopyWallet() {
+        if (!studentAddress) return;
+
+        navigator.clipboard.writeText(studentAddress).then(() => {
+            const originalText = copyWalletBtn.textContent;
+            copyWalletBtn.textContent = '✅';
+            setTimeout(() => {
+                copyWalletBtn.textContent = '📋';
+            }, 2000);
+        }).catch(err => {
+            console.error('Error al copiar:', err);
+            alert('Error al copiar la wallet.');
+        });
+    }
+
     // Event Listeners
+    connectWalletBtn.addEventListener('click', connectWallet);
     generateBtn.addEventListener('click', handleGenerate);
 
     studentNameInput.addEventListener('keypress', (e) => {
@@ -95,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     copyHashBtn.addEventListener('click', handleCopyHash);
+    copyWalletBtn.addEventListener('click', handleCopyWallet);
 
     registerBlockchainBtn.addEventListener('click', () => {
         blockchainModal.classList.remove('hidden');
