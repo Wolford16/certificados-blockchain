@@ -1,52 +1,40 @@
 # Blockchain Certificate System 📜
 
-Este proyecto es un sistema de certificación digital académico que utiliza blockchain para garantizar la inmutabilidad y autenticidad de los certificados emitidos.
+Este proyecto es un sistema de certificación digital académico que utiliza blockchain para garantizar la inmutabilidad y autenticidad de los certificados emitidos, asociándolos directamente a la identidad digital (Wallet) del estudiante.
 
-## 🚀 Estructura del Proyecto
+## 🚀 Características Principales
 
-- `/backend`: Servidor Node.js + Express para la generación determinística de certificados y hashes SHA-256.
-- `/frontend`: Interfaz web moderna (HTML/CSS/JS) con un diseño institucional premium.
-- `/contracts`: Smart Contract en Solidity para el registro de hashes en la blockchain.
+- **Roles Separados:** Portal para Estudiantes y Panel Privado para Administradores.
+- **Identidad Digital:** Integración con **MetaMask** para vincular certificados a billeteras criptográficas en lugar de correos electrónicos.
+- **Flujo Institucional:** Solicitud de certificados, panel de aprobación y emisión controlada.
+- **Generación Visual:** Creación dinámica de diplomas en **PDF** listos para descargar.
+- **Blockchain Inmutable:** Registro de hashes SHA-256 mediante un Smart Contract en Solidity.
 
 ## 🛠️ Requisitos
 
 - Node.js instalado.
 - Navegador web moderno.
-- Remix IDE (para el registro en blockchain).
+- Extensión **MetaMask** instalada en el navegador.
+- Remix IDE (para el registro notarial en blockchain).
 
 ## 🏃 Cómo Ejecutar
 
-### 1. Iniciar el Sistema
-Puede iniciar el sistema desde la raíz o desde la carpeta backend:
+### 1. Iniciar el Backend
+El backend procesa las solicitudes, genera los hashes y dibuja los PDFs.
 
-**Desde la raíz (Recomendado):**
-```bash
-node index.js
-```
-
-**Desde la carpeta /backend:**
 1. Entre a la carpeta: `cd backend`
 2. Instale dependencias: `npm install`
-3. Inicie: `node index.js`
+3. Inicie el servidor: `node index.js`
 
 El sistema estará disponible en `http://localhost:3000`.
 
-### 2. Abrir el Frontend
-Simplemente abra el archivo `frontend/index.html` en su navegador preferido.
-
-### 3. Flujo de Trabajo
-1. Ingrese el nombre del estudiante en el frontend.
-2. Haga clic en **"Generar Certificado"**.
-3. Copie el hash SHA-256 generado.
-4. Haga clic en **"Registrar en Blockchain"** para ver las instrucciones de registro manual en Remix IDE.
-
-## 🔗 Registro en Blockchain (Manual)
-Este sistema está diseñado para fines educativos. El registro se realiza manualmente siguiendo estos pasos:
-1. Copie el código de `contracts/CertificateRegistry.sol`.
-2. Péguelo en [Remix IDE](https://remix.ethereum.org).
-3. Compile y despliegue el contrato.
-4. Use la función `issueCertificate` pegando el hash generado por el sistema.
-5. Verifique la existencia del certificado con `verifyCertificate`.
+### 2. Flujo de Trabajo
+1. Abra `http://localhost:3000` en su navegador.
+2. Seleccione su rol:
+   - **Estudiante:** Conecta su MetaMask, ingresa su nombre y envía la solicitud.
+   - **Administrador:** Ingresa con la contraseña `admin123`. Revisa solicitudes pendientes, aprueba la emisión y recibe el Hash para registrarlo en la blockchain.
+3. El Administrador registra manualmente el Hash y la Wallet en Remix.
+4. El Estudiante descarga su PDF final con la garantía blockchain incrustada.
 
 ---
 *Desarrollado para fines académicos y demostrativos.*

@@ -1,84 +1,74 @@
 # Guía de Uso Detallada: Blockchain Certificate System 📜
 
-Bienvenido al sistema de certificación académica inmutable. Esta guía le llevará paso a paso por todo el flujo, desde la instalación inicial hasta el registro final en la blockchain de Ethereum.
+Bienvenido al sistema de certificación académica inmutable. Esta guía le llevará paso a paso por todo el flujo del sistema, que ahora incluye roles de Estudiante y Administrador, uso de MetaMask y generación de PDF.
 
 ---
 
 ## 🏗️ Paso 1: Preparación del Entorno
 
-### 1. Iniciar el Sistema
-Puede iniciar el sistema desde la raíz del proyecto o desde la carpeta backend:
-
-**Desde la raíz (Recomendado):**
-```bash
-node index.js
-```
-
-**Desde la carpeta /backend:**
-1. Entre a la carpeta: `cd backend`
-2. Instale dependencias: `npm install`
-3. Inicie: `node index.js`
-   *Este comando iniciará automáticamente el backend por usted.*
-
-> [!TIP]
-> Si es la primera vez que lo usa, asegúrese de haber ejecutado `npm install` dentro de la carpeta `backend`.
-
----
-
-## 🎨 Paso 2: Generación del Certificado
-
-Con el backend funcionando, ahora usaremos la interfaz visual.
-
-1. **Abra su navegador** y vaya a: [http://localhost:3000](http://localhost:3000)
-   - *Opcional: También puede abrir el archivo `frontend/index.html` directamente.*
-2. **Ingrese el nombre**: Escriba el nombre completo del estudiante.
-3. **Genere el certificado**: Haga clic en el botón dorado **"Generar Certificado"**.
-   - El sistema enviará el nombre al backend.
-   - Se generará un certificado digital con estructura fija.
-   - Aparecerá una vista previa elegante del diploma.
-4. **Copie el Identificador (Hash)**: 
-   - Debajo del certificado verá un código largo (SHA-256).
-   - Haga clic en el icono de la tablilla (📋) para copiarlo al portapapeles.
-
----
-
-## 🔗 Paso 3: Registro en Blockchain (Remix IDE)
-
-Este es el paso crucial donde hacemos que el certificado sea oficial e inmutable.
-
-1. **Vaya a Remix IDE**: [https://remix.ethereum.org](https://remix.ethereum.org).
-2. **Cree un nuevo archivo**: Llámelo `CertificateRegistry.sol`.
-3. **Pegue el código del contrato**: Copie el contenido de `contracts/CertificateRegistry.sol` de su proyecto y péguelo en Remix.
-4. **Compile**: Presione `Ctrl + S` o vaya al icono de "Solidity Compiler" y haga clic en **"Compile CertificateRegistry.sol"**.
-5. **Despliegue (Deploy)**:
-   - Vaya a la pestaña "Deploy & Run Transactions".
-   - Asegúrese de que el contrato seleccionado sea `CertificateRegistry`.
-   - Haga clic en el botón naranja **"Deploy"**.
-6. **Registre el Hash**:
-   - En la sección "Deployed Contracts", expanda `CertificateRegistry`.
-   - Busque la función naranja `issueCertificate`.
-   - Pegue el Hash que copió en el Paso 2 dentro del campo de texto.
-   - Haga clic en el botón `issueCertificate`.
-   - *¡Listo! El hash ahora vive en la blockchain.*
-
----
-
-## ✅ Paso 4: Verificación
-
-¿Cómo sabemos que realmente se registró?
-
-1. En Remix, busque la función azul `verifyCertificate`.
-2. Pegue el mismo Hash y haga clic en el botón.
-3. El resultado debe ser `true`. 
-   - *Si intenta con cualquier otra palabra o un hash modificado, el resultado será `false`.*
-
----
-
-## 🖼️ Resumen del Flujo Visual
-
-![Flujo del Sistema](file:///C:/Users/cesar/.gemini/antigravity/brain/33116cdd-2c43-4300-9858-f26d94f46ce2/blockchain_certificate_flow_1776832420457.png)
-
----
+1. Entre a la carpeta del servidor: `cd backend`
+2. Instale dependencias (incluye librerías nuevas como `pdfkit`): `npm install`
+3. Inicie el servidor: `node index.js`
 
 > [!IMPORTANT]
-> Recuerde que el backend debe estar siempre activo mientras use la interfaz web, de lo contrario no se podrán generar nuevos certificados ni hashes.
+> Recuerde que el backend debe estar siempre activo mientras use la interfaz web, de lo contrario no se podrán procesar solicitudes ni generar PDFs.
+
+---
+
+## 🎓 Paso 2: Flujo del Estudiante (Solicitud)
+
+Asegúrese de tener instalada la extensión **MetaMask** en su navegador.
+
+1. **Abra su navegador** y vaya a: [http://localhost:3000](http://localhost:3000)
+2. Seleccione la opción **"Soy Estudiante"**.
+3. Haga clic en **"Conectar MetaMask"** y apruebe la conexión en la ventana emergente. Su dirección aparecerá en pantalla.
+4. Ingrese su **Nombre Completo** y haga clic en **"Enviar Solicitud"**.
+5. Verá que su estado cambia a **Pendiente**. Aquí termina la fase del estudiante por ahora.
+
+---
+
+## 🏛️ Paso 3: Flujo del Administrador (Aprobación)
+
+1. En el navegador, vuelva al inicio o vaya directamente a `http://localhost:3000/owner.html`.
+2. Seleccione **"Soy Administrador"**.
+3. Ingrese la contraseña de seguridad: `admin123`
+4. En el Panel de Administración, verá una tabla con las solicitudes de los estudiantes.
+5. Busque la solicitud en estado *Pendiente* y haga clic en **"Aprobar y Registrar"**.
+6. Aparecerá un cuadro de diálogo confirmando la acción. Al aceptar, el sistema generará automáticamente el Hash SHA-256.
+7. Se abrirá una ventana con instrucciones precisas mostrando el **Hash** y la **Wallet** del estudiante. NO cierre esta ventana todavía.
+
+---
+
+## 🔗 Paso 4: Registro en Blockchain (Remix IDE)
+
+Como administrador, debe "notariar" esta información en la Blockchain.
+
+1. Abra [Remix IDE](https://remix.ethereum.org) en otra pestaña.
+2. Cree un archivo llamado `CertificateRegistry.sol` y pegue el código que está en su carpeta `contracts/`.
+3. Compile el contrato en la pestaña "Solidity Compiler".
+4. Despliegue (Deploy) el contrato en la pestaña "Deploy & Run Transactions".
+5. Expanda su contrato desplegado y busque la función naranja `issueCertificate`.
+6. En el primer campo (`_hash`), pegue el **Hash** que le dio el sistema en el Paso 3.
+7. En el segundo campo (`student`), pegue la **Wallet** del estudiante que también le dio el sistema.
+8. Haga clic en `transact`.
+9. ¡Listo! Vuelva al panel de administrador en el sistema y haga clic en **"Marcar como Aprobado"** para cerrar la ventana.
+
+---
+
+## ✅ Paso 5: Descarga del PDF (Estudiante)
+
+1. Vuelva a la pestaña del Estudiante (o haga que el estudiante ingrese nuevamente y conecte su MetaMask).
+2. Haga clic en **"Actualizar Estado"**.
+3. El estado cambiará a color verde (**¡Aprobado!**) y mostrará el Hash definitivo.
+4. Aparecerá un botón para **Descargar Certificado en PDF**.
+5. Al hacer clic, se descargará su diploma oficial, el cual contiene el Hash impreso que cualquier tercero puede validar en la Blockchain.
+
+---
+
+## 🔍 Verificación Pública (Opcional)
+
+Si un tercero quiere validar el PDF de un alumno:
+1. Va a Remix IDE con el contrato público de la universidad.
+2. Busca la función azul `verifyCertificate`.
+3. Pega el Hash que aparece impreso en el PDF del alumno.
+4. El contrato devolverá la dirección pública de la Wallet. Si coincide con la del alumno, el certificado es 100% auténtico y no ha sido alterado.
